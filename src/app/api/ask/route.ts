@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { OpenAIEmbeddings } from "@langchain/openai";
-import { index } from "@/app/utils/pineCone";
+import { index } from "@/utils/pineCone";
 import OpenAI from "openai";
 
 export const POST = async (req: NextRequest, res: NextResponse) => {

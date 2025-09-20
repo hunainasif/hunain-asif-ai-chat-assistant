@@ -3,7 +3,7 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { v4 as uuidv4 } from "uuid";
-import { index } from "@/app/utils/pineCone";
+import { index } from "@/utils/pineCone";
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
