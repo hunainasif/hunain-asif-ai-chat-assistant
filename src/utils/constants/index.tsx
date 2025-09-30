@@ -1,3 +1,5 @@
+import { LoaderPinwheel } from "lucide-react";
+
 export const Links = [
   {
     id: 1,
@@ -12,6 +14,15 @@ export const Links = [
   {
     id: 3,
     title: "Twitter",
-    url: "https://github.com/hunainasif",
+    url: "https://x.com/hunainasif1503",
+  },
+];
+
+export const DashboardItems = [
+  {
+    id: 1,
+    title: "Dashboard",
+    icon: LoaderPinwheel,
+    url: "/dashboard",
   },
 ];
