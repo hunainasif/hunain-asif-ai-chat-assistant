@@ -4,7 +4,7 @@ import LoginForm from "./_components/LoginForm";
 
 export default function Login() {
   return (
-    <div className="flex w-full h-screen">
+    <div className="flex w-full h-screen dark:bg-dark-secondary">
       <LoginLeftbar />
       <div className="flex-1 flex items-center justify-center">
         <LoginForm />

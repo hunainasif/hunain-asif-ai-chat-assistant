@@ -32,7 +32,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="overflow-hidden rounded-md border text-light-primary">
+    <div className="overflow-hidden rounded-md border text-light-primary dark:text-dark-secondary">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -41,7 +41,7 @@ export function DataTable<TData, TValue>({
                 return (
                   <TableHead
                     key={header.id}
-                    className="bg-light-primary text-light-secondary"
+                    className="bg-light-primary text-light-secondary dark:text-dark-primary"
                   >
                     {header.isPlaceholder
                       ? null

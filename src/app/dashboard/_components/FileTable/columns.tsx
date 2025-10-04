@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Trash2 } from "lucide-react";
+import { Crown, Trash2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
+import moment from "moment";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteFileService } from "@/utils/services/message";
+import { toast } from "sonner";
+import { useState } from "react";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type File = {
@@ -31,16 +37,31 @@ export const columns: ColumnDef<File>[] = [
   {
     accessorKey: "uploadDate",
     header: "Upload Date",
+    cell: ({ row }) => {
+      const { uploadDate } = row.original;
+      return moment(uploadDate).format("MMMM Do YYYY, h:mm:ss a");
+    },
   },
   {
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => {
+      const [open, setOpen] = useState(false);
+
       const { id } = row.original;
+      const queryClient = useQueryClient();
+
+      const { mutate, isPending } = useMutation({
+        mutationFn: deleteFileService,
+        onSuccess: (data) => {
+          toast.success(data.message);
+          queryClient.invalidateQueries({ queryKey: ["getAllFilesService"] });
+        },
+      });
 
       return (
         <div>
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger>
               <Trash2 className="cursor-pointer" />
             </DialogTrigger>
@@ -55,11 +76,22 @@ export const columns: ColumnDef<File>[] = [
                 </DialogDescription>
               </DialogHeader>
               <div className="flex items-center justify-between ">
-                <button className="p-3 w-24  bg-light-primary text-light-secondary rounded-2xl cursor-pointer">
-                  Yes
-                </button>
-                <button className="p-3 w-24 bg-light-secondary text-light-primary border-1 border-solid border-light-primary rounded-2xl cursor-pointer">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="p-3 w-24 bg-light-secondary dark:bg-dark-secondary text-light-primary dark:text-dark-primary  border border-light-primary rounded-2xl cursor-pointer"
+                >
                   No
+                </button>
+                <button
+                  onClick={() => {
+                    mutate(id, {
+                      onSuccess: () => setOpen(false),
+                    });
+                  }}
+                  disabled={isPending}
+                  className={`p-3 w-24  bg-light-primary dark:bg-dark-primary text-light-secondary dark:text-dark-secondary rounded-2xl cursor-pointer disabled:bg-[#D3D3D3]`}
+                >
+                  {isPending ? <>Deleting....</> : `Yes`}
                 </button>
               </div>
             </DialogContent>

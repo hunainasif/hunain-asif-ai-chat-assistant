@@ -4,7 +4,7 @@ import FileTable from "./_components/FileTable";
 
 export default function Dashboard() {
   return (
-    <div className={`flex flex-col gap-5 mt-6 md:mx-auto `}>
+    <div className={`flex flex-col gap-5  md:mx-auto `}>
       <div className="flex flex-col gap-2 my-5">
         <h1 className="font-bold text-2xl text-light-primary">
           File Managment for Your Rag
@@ -14,10 +14,12 @@ export default function Dashboard() {
           for Retrieval-Augmented Generation
         </p>
       </div>
-      {/* file Upload component */}
-      <FileUpload />
-      {/* Files Display Table */}
-      <FileTable />
+      <div className="w-full  flex flex-col justify-baseline mx-auto px-4 ">
+        {/* file Upload component */}
+        <FileUpload />
+        {/* Files Display Table */}
+        <FileTable />
+      </div>
     </div>
   );
 }

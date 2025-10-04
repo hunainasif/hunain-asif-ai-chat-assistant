@@ -14,7 +14,7 @@ import Link from "next/link";
 
 export default function AppSidebar({ children }: { children?: ReactNode }) {
   return (
-    <Sidebar className="bg-light-secondary">
+    <Sidebar className="bg-light-secondary dark:bg-dark-primary">
       <SidebarHeader className=" h-14 flex items-center justify-center">
         <span className="text-lg font-bold text-center text-light-primary">
           AI Chat Assistant

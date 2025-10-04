@@ -3,7 +3,7 @@ import React from "react";
 
 export default function LoginLeftbar() {
   return (
-    <div className="bg-light-primary text-light-secondary flex-1 h-full hidden md:flex flex-col justify-center gap-9 ">
+    <div className="bg-light-primary dark:bg-dark-primary text-light-secondary dark:text-dark-secondary flex-1 h-full hidden md:flex flex-col justify-center gap-9 ">
       <div id="top" className="w-5/6 mx-auto space-y-5">
         <h1 className="text-3xl font-bold">Transform Your Documents with AI</h1>
         <span className="text-xl font-medium">

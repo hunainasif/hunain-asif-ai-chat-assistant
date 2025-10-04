@@ -4,9 +4,11 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { v4 as uuidv4 } from "uuid";
 import { index } from "@/utils/pineCone";
+import connectToDB, { prisma } from "@/utils/db";
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
+    await connectToDB();
     const form = await req.formData();
     // file
     const file = form.get("file");
@@ -45,8 +47,18 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     // create Vector Embeddings
     const vectors = await embeddings.embedDocuments(chunks);
 
+    const fileId = uuidv4();
+
     // Upload Chunks to the Pinecone(Vector Database)
-    await uploadChunksToPineCone(file, chunks, vectors);
+    await uploadChunksToPineCone(fileId, file, chunks, vectors);
+
+    await prisma.file.create({
+      data: {
+        id: fileId,
+        fileName: file.name,
+      },
+    });
+
     return NextResponse.json(
       { message: "File Uploaded Successfully", success: true },
       { status: 200 }
@@ -60,6 +72,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 };
 
 const uploadChunksToPineCone = async (
+  fileId: string,
   file: File,
   chunks: string[],
   vectors: number[][]
@@ -68,17 +81,35 @@ const uploadChunksToPineCone = async (
   let batch = [];
 
   for (let i = 0; i < chunks.length; i++) {
-    const id = uuidv4();
-
     let metaData = {
       text: chunks[i],
       fileName: file.name,
-      id: id,
+      fileId: fileId,
+      chunkIndex: i,
     };
-    batch.push({ id: id, metadata: metaData, values: vectors[i] });
+    let chunkId = uuidv4();
+    batch.push({ id: chunkId, metadata: metaData, values: vectors[i] });
     if (batch.length === batchSize || i === chunks.length - 1) {
       await index.upsert(batch);
       batch = [];
     }
+  }
+};
+
+// route to getALL Files
+export const GET = async (request: NextRequest, response: NextResponse) => {
+  try {
+    await connectToDB();
+
+    const files = await prisma.file.findMany();
+    if (!files || files.length < 1) {
+      return NextResponse.json({ message: "No Files Found" }, { status: 200 });
+    }
+    return NextResponse.json({ files, status: true }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: (error as Error).message },
+      { status: 500 }
+    );
   }
 };

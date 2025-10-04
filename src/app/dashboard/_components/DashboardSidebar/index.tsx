@@ -16,13 +16,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DashboardItems } from "@/utils/constants";
 import { ChevronUp, User2 } from "lucide-react";
+import Link from "next/link";
 export default function DashboardSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className=" h-14 flex items-center justify-center">
-        <span className="text-lg font-bold text-center text-light-primary">
-          AI Chat Assistant
-        </span>
+        <Link href={"/"}>
+          <span className="text-lg font-bold text-center text-light-primary">
+            AI Chat Assistant
+          </span>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -46,14 +49,16 @@ export default function DashboardSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
+                <SidebarMenuButton className="text-light-primary dark:text-dark-secondary">
                   <User2 /> Username
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" className="">
                 <DropdownMenuItem>
-                  <span>Sign out</span>
+                  <span className="text-light-primary dark:text-dark-secondary">
+                    Sign out
+                  </span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

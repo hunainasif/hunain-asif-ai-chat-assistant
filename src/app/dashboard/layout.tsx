@@ -1,7 +1,7 @@
 import React from "react";
 import DashboardSidebar from "./_components/DashboardSidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import Header from "@/components/Header";
+import Header from "@/app/_components/Header";
 
 export default function DashboardLayout({
   children,
