@@ -1,4 +1,4 @@
-import connectToDB, { prisma } from "@/utils/db";
+import { prisma } from "@/utils/db";
 import { index } from "@/utils/pineCone";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,8 +7,6 @@ export const DELETE = async (
   context: { params: Promise<{ id: string }> }
 ) => {
   try {
-    await connectToDB();
-
     const { id } = await context.params;
 
     // Delete from Pinecone

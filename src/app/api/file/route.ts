@@ -4,11 +4,10 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { v4 as uuidv4 } from "uuid";
 import { index } from "@/utils/pineCone";
-import connectToDB, { prisma } from "@/utils/db";
+import { prisma } from "@/utils/db";
 
 export const POST = async (req: NextRequest) => {
   try {
-    await connectToDB();
     const form = await req.formData();
     // file
     const file = form.get("file");
@@ -106,8 +105,6 @@ const uploadChunksToPineCone = async (
 // route to getALL Files
 export const GET = async (request: NextRequest) => {
   try {
-    await connectToDB();
-
     const files = await prisma.file.findMany();
     if (!files || files.length < 1) {
       return NextResponse.json({ message: "No Files Found" }, { status: 200 });
