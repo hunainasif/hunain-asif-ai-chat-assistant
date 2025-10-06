@@ -4,7 +4,7 @@ import React from "react";
 import LoadingThreeDotsJumping from "@/app/_components/ChatLoader";
 
 export default function ChatScreen({ isPending }: { isPending: any }) {
-  let role = "system";
+  const role = "system";
   const { messages } = useMessageStore();
 
   return (

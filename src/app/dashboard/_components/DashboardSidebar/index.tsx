@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import { signOut } from "next-auth/react";
 import {
   Sidebar,
   SidebarContent,
@@ -17,7 +18,14 @@ import {
 import { DashboardItems } from "@/utils/constants";
 import { ChevronUp, User2 } from "lucide-react";
 import Link from "next/link";
-export default function DashboardSidebar() {
+import { useRouter } from "next/navigation";
+
+export default async function DashboardSidebar() {
+  const router = useRouter();
+  const handleLogout = () => {
+    router.push("/");
+    signOut();
+  };
   return (
     <Sidebar>
       <SidebarHeader className=" h-14 flex items-center justify-center">
@@ -56,9 +64,12 @@ export default function DashboardSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" className="">
                 <DropdownMenuItem>
-                  <span className="text-light-primary dark:text-dark-secondary">
+                  <button
+                    onClick={handleLogout}
+                    className="text-light-primary dark:text-dark-secondary"
+                  >
                     Sign out
-                  </span>
+                  </button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

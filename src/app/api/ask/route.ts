@@ -3,10 +3,10 @@ import { OpenAIEmbeddings } from "@langchain/openai";
 import { index } from "@/utils/pineCone";
 import OpenAI from "openai";
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
+export const POST = async (req: NextRequest,) => {
   try {
     // QueryText
-    let { text } = await req.json();
+    const { text } = await req.json();
 
     //    create vector Embedding of the Text
     const embeddings = new OpenAIEmbeddings({
@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       includeMetadata: true,
     });
     //  Format the Context
-    let context = queryResponse.matches
+    const context = queryResponse.matches
       .map((doc) => doc?.metadata?.text)
       .join("\n");
 
@@ -32,7 +32,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     });
 
     // CHat with LLM
-    let chat = await openai.chat.completions.create({
+    const chat = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
@@ -53,7 +53,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       ],
     });
     //    format LLm Response
-    let openAiResponse = chat?.choices[0]?.message?.content?.trim();
+    const openAiResponse = chat?.choices[0]?.message?.content?.trim();
 
     return NextResponse.json(
       { message: openAiResponse, success: true },

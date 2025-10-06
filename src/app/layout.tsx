@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import QueryProvider from "@/utils/Providers/QueryProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/utils/Providers/ThemeProvider";
+import NextAuthProvider from "@/utils/Providers/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,18 +35,20 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <QueryProvider>
-            <SidebarProvider defaultOpen={defaultOpen}>
-              <div className="h-full w-full">{children}</div>
-            </SidebarProvider>
-          </QueryProvider>
-        </ThemeProvider>
+        <NextAuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <QueryProvider>
+              <SidebarProvider defaultOpen={defaultOpen}>
+                <div className="h-full w-full">{children}</div>
+              </SidebarProvider>
+            </QueryProvider>
+          </ThemeProvider>
+        </NextAuthProvider>
         <Toaster />
       </body>
     </html>

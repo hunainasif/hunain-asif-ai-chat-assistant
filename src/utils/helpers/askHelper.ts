@@ -22,7 +22,7 @@ const useAskService = () => {
     }
     setMessages({ role: "user", content: queryText });
     setText("");
-    let dataToSend = {
+    const dataToSend = {
       text: queryText,
     };
     mutate(dataToSend);

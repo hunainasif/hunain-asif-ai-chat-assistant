@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { index } from "@/utils/pineCone";
 import connectToDB, { prisma } from "@/utils/db";
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
+export const POST = async (req: NextRequest) => {
   try {
     await connectToDB();
     const form = await req.formData();
@@ -21,12 +21,12 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     }
 
     // arrayBuffer
-    let arrayBuffer = await file.arrayBuffer();
+    const arrayBuffer = await file.arrayBuffer();
 
     // extract text from the file
     const loader = new PDFLoader(new Blob([arrayBuffer]));
     const documentText = await loader.load();
-    let extractedText = documentText.map((doc) => doc.pageContent).join("\n");
+    const extractedText = documentText.map((doc) => doc.pageContent).join("\n");
 
     // Split text in Small Chunks
     const textSplitter = new RecursiveCharacterTextSplitter({
@@ -36,7 +36,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     const texts = await textSplitter.createDocuments([extractedText]);
 
     // Format The Chunks
-    let chunks = texts.map((doc) => doc.pageContent.replace(/\n/g, " "));
+    const chunks = texts.map((doc) => doc.pageContent.replace(/\n/g, " "));
 
     // Initialize OpenAI
     const embeddings = new OpenAIEmbeddings({
@@ -77,17 +77,17 @@ const uploadChunksToPineCone = async (
   chunks: string[],
   vectors: number[][]
 ) => {
-  let batchSize = 100;
+  const batchSize = 100;
   let batch = [];
 
   for (let i = 0; i < chunks.length; i++) {
-    let metaData = {
+    const metaData = {
       text: chunks[i],
       fileName: file.name,
       fileId: fileId,
       chunkIndex: i,
     };
-    let chunkId = uuidv4();
+    const chunkId = uuidv4();
     batch.push({ id: chunkId, metadata: metaData, values: vectors[i] });
     if (batch.length === batchSize || i === chunks.length - 1) {
       await index.upsert(batch);
@@ -97,7 +97,7 @@ const uploadChunksToPineCone = async (
 };
 
 // route to getALL Files
-export const GET = async (request: NextRequest, response: NextResponse) => {
+export const GET = async (request: NextRequest) => {
   try {
     await connectToDB();
 

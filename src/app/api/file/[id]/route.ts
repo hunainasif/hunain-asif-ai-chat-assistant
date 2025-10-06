@@ -1,26 +1,27 @@
-import { metadata } from "@/app/layout";
 import connectToDB, { prisma } from "@/utils/db";
 import { index } from "@/utils/pineCone";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const DELETE = async (
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) => {
   try {
     await connectToDB();
-    const { id } = params;
 
+    const { id } = await context.params;
+
+    // Delete from Pinecone
     await index.deleteMany({
       fileId: { $eq: id },
     });
+
     await prisma.file.delete({
-      where: {
-        id,
-      },
+      where: { id },
     });
+
     return NextResponse.json(
-      { message: "File has been Deleted", status: true },
+      { message: "File has been deleted", status: true },
       { status: 200 }
     );
   } catch (error) {
