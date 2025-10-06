@@ -27,6 +27,7 @@ export const POST = async (req: NextRequest) => {
     const loader = new PDFLoader(new Blob([arrayBuffer]));
     const documentText = await loader.load();
     const extractedText = documentText.map((doc) => doc.pageContent).join("\n");
+    console.log(extractedText, "extractedText");
 
     // Split text in Small Chunks
     const textSplitter = new RecursiveCharacterTextSplitter({
@@ -46,11 +47,17 @@ export const POST = async (req: NextRequest) => {
 
     // create Vector Embeddings
     const vectors = await embeddings.embedDocuments(chunks);
+    console.log(vectors, "vectors");
 
     const fileId = uuidv4();
 
     // Upload Chunks to the Pinecone(Vector Database)
-    await uploadChunksToPineCone(fileId, file, chunks, vectors);
+    try {
+      await uploadChunksToPineCone(fileId, file, chunks, vectors);
+      console.log("chunks Uploaded");
+    } catch (error) {
+      throw error;
+    }
 
     await prisma.file.create({
       data: {
