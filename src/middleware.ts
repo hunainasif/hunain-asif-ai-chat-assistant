@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { auth } from "@/utils/auth";
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   console.log(pathname, "Hey I am the pathname");
 
-  const session = await getToken({ req: request });
+  const session = await auth();
   console.log(session, "Hey I am the Session");
 
   const isDashboardPage = pathname.startsWith("/dashboard");
