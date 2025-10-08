@@ -20,7 +20,7 @@ import { useState } from "react";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type File = {
-  id: string;
+  _id: string;
   fileName: string;
   uploadDate: string;
 };
