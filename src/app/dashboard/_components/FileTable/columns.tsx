@@ -46,9 +46,12 @@ export const columns: ColumnDef<File>[] = [
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => {
+      console.log("hey i am the row", row);
       const [open, setOpen] = useState(false);
 
-      const { id } = row.original;
+      const { _id } = row.original;
+      let fileId = _id.toString();
+      console.log(fileId, "Hey ia mthe id from client");
       const queryClient = useQueryClient();
 
       const { mutate, isPending } = useMutation({
@@ -72,7 +75,7 @@ export const columns: ColumnDef<File>[] = [
                 </DialogTitle>
                 <DialogDescription className="text-light-primary">
                   This action cannot be undone. This will permanently delete
-                  your file ({id}) and remove it from the system.
+                  your file ({fileId}) and remove it from the system.
                 </DialogDescription>
               </DialogHeader>
               <div className="flex items-center justify-between ">
@@ -84,7 +87,7 @@ export const columns: ColumnDef<File>[] = [
                 </button>
                 <button
                   onClick={() => {
-                    mutate(id, {
+                    mutate(fileId, {
                       onSuccess: () => setOpen(false),
                     });
                   }}

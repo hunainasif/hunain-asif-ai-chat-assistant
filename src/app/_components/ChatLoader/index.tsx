@@ -53,6 +53,9 @@ function StyleSheet() {
             .dark .dot {
           background-color:  #171717;
         }
+            .dark .container {
+          background-color: #e0ac69;
+        }
             `}
     </style>
   );

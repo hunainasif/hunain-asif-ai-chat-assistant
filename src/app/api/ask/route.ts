@@ -3,7 +3,7 @@ import { OpenAIEmbeddings } from "@langchain/openai";
 import { index } from "@/utils/pineCone";
 import OpenAI from "openai";
 
-export const POST = async (req: NextRequest,) => {
+export const POST = async (req: NextRequest) => {
   try {
     // QueryText
     const { text } = await req.json();
