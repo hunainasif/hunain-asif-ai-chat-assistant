@@ -23,7 +23,6 @@ export default function FileUpload() {
     const selectedFile = acceptedFiles[0];
     if (selectedFile) {
       setFile(selectedFile);
-      console.log("Selected file:", selectedFile);
     }
   }, []);
 

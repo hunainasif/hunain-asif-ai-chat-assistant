@@ -11,9 +11,7 @@ import { useSession } from "next-auth/react";
 export default function Home() {
   const { messages, text, setText } = useMessageStore();
   const { isPending, handleSend } = useAskService();
-  console.log(isPending, "from the Page.tsx");
   const { data: session } = useSession();
-  console.log("Hey I am the Data", session);
 
   return (
     <div className="w-full h-full  bg-light-secondary dark:bg-dark-secondary">

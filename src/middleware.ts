@@ -4,10 +4,8 @@ import { auth } from "@/utils/auth";
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  console.log(pathname, "Hey I am the pathname");
 
   const session = await auth();
-  console.log(session, "Hey I am the Session");
 
   const isDashboardPage = pathname.startsWith("/dashboard");
   const isLoginPage = pathname.startsWith("/login");

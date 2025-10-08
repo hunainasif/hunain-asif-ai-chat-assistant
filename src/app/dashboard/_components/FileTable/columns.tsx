@@ -46,12 +46,10 @@ export const columns: ColumnDef<File>[] = [
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      console.log("hey i am the row", row);
       const [open, setOpen] = useState(false);
 
       const { _id } = row.original;
       let fileId = _id.toString();
-      console.log(fileId, "Hey ia mthe id from client");
       const queryClient = useQueryClient();
 
       const { mutate, isPending } = useMutation({

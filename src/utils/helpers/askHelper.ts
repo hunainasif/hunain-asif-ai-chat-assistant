@@ -27,7 +27,6 @@ const useAskService = () => {
     };
     mutate(dataToSend);
   };
-  console.log(isPending, "from the Service");
 
   return { mutate, isPending, handleSend };
 };

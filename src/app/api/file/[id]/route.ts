@@ -15,7 +15,6 @@ export const DELETE = async (
     await index.deleteMany({
       fileId: { $eq: id },
     });
-    console.log(id, "Hey I am the id");
     await FileModel.findByIdAndDelete(id);
 
     return NextResponse.json(

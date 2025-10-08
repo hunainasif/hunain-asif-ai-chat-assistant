@@ -8,9 +8,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const adminEmail = process.env.ADMIN_EMAIL;
         const adminPassword = process.env.ADMIN_PASSWORD;
 
-        console.log("Environment variables:", { adminEmail, adminPassword });
-        console.log("Received credentials:", credentials);
-
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password are required");
         }
@@ -22,7 +19,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error("Invalid email or password");
         }
 
-        console.log("Authorization successful");
         return {
           id: "1",
           email: adminEmail,

@@ -9,7 +9,6 @@ export default function FileTable() {
     queryKey: ["getAllFilesService"],
     queryFn: getAllFilesService,
   });
-  console.log(filesData?.files);
   return (
     <div className="container mx-auto py-10">
       <DataTable columns={columns} data={filesData?.files ?? []} />

@@ -31,8 +31,6 @@ export default function LoginForm() {
       password: data.password,
     });
 
-    console.log(result, "Hey I am the result");
-
     if (result?.error) {
       toast.error("Login failed: " + result.error);
     } else if (result?.ok) {
